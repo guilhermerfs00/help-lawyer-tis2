@@ -1,0 +1,206 @@
+<html>
+<head>
+<meta content="text/html; charset = UTF-8" http-equiv="content-type">
+
+<title>Help Lawyer huehue test</title>
+</head>
+
+<script type="text/javascript">
+
+function addIdToPath(form_name){
+    var your_form = document.getElementById(form_name);
+	var id = your_form.elements.namedItem("id").value;
+    var action_src = "http://localhost:6789/client/" + id;
+	your_form.action = action_src;
+}
+
+</script>
+<body>
+	<p>
+	<h1>Controle de Estoque</h1>
+	</p>
+
+
+	<section class="section--container__responsive">
+
+		<section class="section--mainrow__responsive first--section">
+			<h1 class="generaltext">Cadastramento de Cliente</h1>
+			<p>Cadastramento de cliente através de web service.</p>
+			<form class="form--register"
+				action="http://localhost:6789/client" method="post"
+				id="form-add">
+				<p>Nome:</p>
+				<input class="input--register" type="text" name="name" value=""
+					placeholder="João, Maria...">
+				<p>Email:</p>
+				<input class="input--register" type="email" name="email" value=""
+                    placeholder="fulano@gmail.com">
+				<p>Telefone:</p>
+				<input class="input--register" type="text" name="phone"
+					value="">
+				<p>Data de nascimento:</p>
+				<input class="input--register" type="text" name="birthday"
+					value="" placeholder="2020-04-16..."> 
+				<p>Endereço:</p>
+				<input
+					class="input--register" type="text" name="address" value=""> 
+				<input type="submit"
+					value="cadastrar" class="input--main__style input--button">
+			</form>
+		</section>
+
+	</section>
+
+	<section class="section--container__responsive">
+
+		<section class="section--row__responsive">
+			<h1 class="generaltext">Consultar cliente</h1>
+			<p>Consulta cliente através de web service.</p>
+			<form onsubmit="addIdToPath('form-get')" method="get"
+				id="form-get">
+				<input class="input--down" type="text" id="id" value=""
+					placeholder="descrição do produto..."> 
+					<input type="submit" value="consultar"
+					class="input--button input--consult__style">
+			</form>
+		</section>
+
+		<section class="section--row__responsive">
+			<h1 class="generaltext">Remover Cliente</h1>
+			<p>Remove cliente do estoque.</p>
+			<form  onsubmit="addIdToPath('form-delete')" method="delete" id="form-delete">
+				<input class="input--down" type="text" id="id" value=""
+					placeholder="descrição do produto..."> <input type="submit"
+					value="remover" class="input--remove__style input--button">
+			</form>
+		</section>
+
+		<section class="section--row__responsive">
+			<h1 class="generaltext">Todos os produtos</h1>
+			<p>Recupera todos os bens de consumo do estoque.</p>
+			<form action="http://localhost:6789/client"  method="get" id="form-all">
+				<input type="submit"
+					value="todos" class="input--consult__style input--button">
+			</form>
+		</section>
+
+	</section>
+
+
+	<section class="section--container__responsive"
+		style="visibility: hidden" id="product-result">
+		<table border="1">
+			<tr>
+				<td>Produto id:</td>
+				<td><span id="id">Sem Resultado</span></td>
+			</tr>
+			<tr>
+				<td>Descricao:</td>
+				<td><span id="descricao">Sem Resultado</span></td>
+			</tr>
+			<tr>
+				<td>Preco:</td>
+				<td><span id="preco">Sem Resultado</span></td>
+			</tr>
+			<tr>
+				<td>Quantidade:</td>
+				<td><span id="quant">Sem Resultado</span></td>
+			</tr>
+			<tr>
+				<td>Data de fabricacao:</td>
+				<td><span id="dataFabricacao">Sem Resultado</span></td>
+			</tr>
+		</table>
+	</section>
+
+	<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: white;
+}
+
+.generaltext, p {
+	font-family: Arial;
+	text-align: center;
+}
+
+.section--container__responsive {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	border-bottom: dashed;
+	border-color: gray;
+}
+
+.input--down {
+	display: block;
+	margin: 0px auto;
+	margin-bottom: 10px;
+}
+
+.input--main__style {
+	background-color: #00FF00;
+}
+
+.input--remove__style {
+	background-color: red;
+}
+
+.input--consult__style {
+	background-color: darkblue;
+}
+
+.input--button {
+	font-weight: bold;
+	font-family: Arial;
+	font-size: medium;
+	border-color: transparent;
+	display: block;
+	margin: 0px auto;
+	margin-bottom: 10px;
+	color: white;
+}
+
+.input--register {
+	display: inline;
+}
+
+.input--radio {
+	display: inline;
+}
+
+input {
+	display: block;
+	border-radius: 7px;
+	padding: 10px;
+	border-style: solid;
+	border-color: lightgray;
+	color: black;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.p--radio__display {
+	display: block;
+}
+
+form p {
+	text-align: initial;
+	display: inline;
+	margin-left: 15px;
+}
+
+.p--nomargin {
+	margin-left: 0px;
+	margin-right: 10px;
+}
+</style>
+
+
+
+</body>
+</html>

@@ -1,4 +1,5 @@
-package com.tis.lawyer;
+/*
+package app;
 
 import org.junit.Test;
 
@@ -9,3 +10,4 @@ class LawyerApplicationTests {
 	}
 
 }
+*/
