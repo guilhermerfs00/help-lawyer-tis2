@@ -16,11 +16,11 @@ public class Lawyer extends User implements Serializable {
 	private String specialization;
 	private float price;
 	private String disponibility;
-	private Signature signature;
+	private String signature;
 	
-	public Lawyer(int id, String name, String email, String address, String phone, String birthday,
-			String specialization, String document, float price, String disponibility, Signature signature) {
-		super(id, name, email, address, phone, birthday);
+	public Lawyer(int id, String name, String email, String address, String phone, String birthday, String passwd,
+			String specialization, String document, float price, String disponibility, String signature) {
+		super(id, name, email, address, phone, birthday, passwd);
 		setDocument(document);
 		setSpecialization(specialization);
 		setPrice(price);
@@ -28,7 +28,7 @@ public class Lawyer extends User implements Serializable {
 		setSignature(signature);
 	}
 	
-	public Lawyer(User user,String specialization, String document, float price, String disponibility, Signature signature) {
+	public Lawyer(User user,String specialization, String document, float price, String disponibility, String signature) {
 		super(user);
 		setDocument(document);
 		setSpecialization(specialization);
@@ -37,11 +37,12 @@ public class Lawyer extends User implements Serializable {
 		setSignature(signature);
 	}
 	
-	public Signature getSignature() {
+
+	public String getSignature() {
 		return signature;
 	}
 
-	public void setSignature(Signature signature) {
+	public void setSignature(String signature) {
 		this.signature = signature;
 	}
 

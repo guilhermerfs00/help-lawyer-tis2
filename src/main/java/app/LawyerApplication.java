@@ -1,17 +1,21 @@
 package app;
 
 import service.ClientService;
+import service.LawyerService;
 
 import static spark.Spark.*;
 
 public class LawyerApplication {
 	
 	private static ClientService client = new ClientService();
+	private static LawyerService lawyer = new LawyerService();
 
 	public static void main(String[] args) {		
 		port(6789);
 
         staticFiles.location("/public");
+        
+        get("/", (request, response) -> "Abra por um dos arquivos html em src/main/resources/public");
         
         post("/client", (request, response) -> client.add(request, response));
 
@@ -22,6 +26,16 @@ public class LawyerApplication {
         delete("/client/:id", (request, response) -> client.remove(request, response));
 
         get("/client", (request, response) -> client.getAll(request, response));
+        
+        post("/lawyer", (request, response) -> lawyer.add(request, response));
+
+        get("/lawyer/:id", (request, response) -> lawyer.get(request, response));
+
+        put("/lawyer/:id", (request, response) -> lawyer.update(request, response));
+
+        delete("/lawyer/:id", (request, response) -> lawyer.remove(request, response));
+
+        get("/lawyer", (request, response) -> lawyer.getAll(request, response));
 	}
 
 }

@@ -26,9 +26,10 @@ public class ClientService {
 		String address = request.queryParams("address");
 		String phone = request.queryParams("phone");
 		String birthday = request.queryParams("birthday");
+		String passwd = request.queryParams("passwd");
 
 		int id = ClientDAO.getMaxId() + 1;
-		Client client = new Client(id, name, email, address, phone, birthday);
+		Client client = new Client(id, name, email, address, phone, birthday, passwd);
 
 		ClientDAO.add(client);
 
@@ -71,6 +72,7 @@ public class ClientService {
         	client.setAddress(request.queryParams("address"));
         	client.setPhone(request.queryParams("phone"));
         	client.setBirthday(request.queryParams("birthday"));
+        	client.setPasswd(request.queryParams("passwd"));
 
         	ClientDAO.update(client);
         	

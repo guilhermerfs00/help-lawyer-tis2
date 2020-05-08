@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.json.JSONObject;
 
@@ -15,14 +16,17 @@ public abstract class User implements Serializable, JsonFormatter  {
 	private String address;
 	private String phone;
 	private String birthday;
-	
-	public User(int id, String name, String email, String address, String phone, String birthday) {
+	private String passwd;
+
+	public User(int id, String name, String email, String address, String phone, String birthday,
+			String passwd) {
 		setName(name);
 		setEmail(email);
 		setAddress(address);
 		setPhone(phone);
 		setBirthday(birthday);
 		setId(id);
+		setPasswd(passwd);
 	}
 	
 	public User(User user) {
@@ -32,6 +36,7 @@ public abstract class User implements Serializable, JsonFormatter  {
 		setPhone(user.getPhone());
 		setBirthday(user.getBirthday());
 		setId(user.getId());
+		setPasswd(user.getPasswd());
 	}
 
 	public void singUp() {
@@ -94,6 +99,14 @@ public abstract class User implements Serializable, JsonFormatter  {
 		this.birthday = birthday;
 	}
 	
+	public String getPasswd() {
+		return passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+	
 	@Override
 	public String toString() {
 		return " ID: " + id + "\n Usuario: " + name + "\n Email: " + email + "\n Telefone: " + phone
@@ -114,6 +127,7 @@ public abstract class User implements Serializable, JsonFormatter  {
 		obj.put("address", this.getAddress());
 		obj.put("phone", this.getPhone());
 		obj.put("birthday", this.getBirthday());
+		obj.put("passwd", this.getBirthday());
 		return obj;
 	}
 }

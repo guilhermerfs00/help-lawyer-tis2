@@ -15,7 +15,7 @@ public class LawyerService {
 
 	public LawyerService() {
 		try {
-			LawyerDAO = new UserDAO("client.dat");
+			LawyerDAO = new UserDAO("lawyer.dat");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -27,14 +27,15 @@ public class LawyerService {
 		String address = request.queryParams("address");
 		String phone = request.queryParams("phone");
 		String birthday = request.queryParams("birthday");
+		String passwd = request.queryParams("passwd");
 		String specialization = request.queryParams("specialization");
 		String document = request.queryParams("document");
 		float price = Float.parseFloat(request.queryParams("price"));
 		String disponibility = request.queryParams("disponibility");
-		Signature signature = new Free();
+		String signature = "Free";
 
 		int id = LawyerDAO.getMaxId() + 1;
-		Lawyer lawyer = new Lawyer(id, name, email, address, phone, birthday, document, specialization, price,
+		Lawyer lawyer = new Lawyer(id, name, email, address, phone, birthday, passwd, specialization, document, price,
 				disponibility, signature);
 
 		LawyerDAO.add(lawyer);
@@ -83,6 +84,11 @@ public class LawyerService {
         	lawyer.setAddress(request.queryParams("address"));
         	lawyer.setPhone(request.queryParams("phone"));
         	lawyer.setBirthday(request.queryParams("birthday"));
+        	lawyer.setPasswd(request.queryParams("passwd"));
+        	lawyer.setDocument(request.queryParams("document"));
+        	lawyer.setSpecialization(request.queryParams("specialization"));
+        	lawyer.setPrice(Float.parseFloat(request.queryParams("price")));
+        	lawyer.setDisponibility(request.queryParams("disponibility"));
 
         	LawyerDAO.update(lawyer);
         	
@@ -128,7 +134,7 @@ public class LawyerService {
             		"\t<signature> " + lawyer.getSignature() + "</signature>\n" +
             		"</lawyer>\n");
 		}
-		returnValue.append("</client>");
+		returnValue.append("</lawyer>");
 	    response.header("Content-Type", "application/xml");
 	    response.header("Content-Encoding", "UTF-8");
 		return returnValue.toString();

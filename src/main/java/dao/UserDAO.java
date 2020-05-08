@@ -95,8 +95,8 @@ public class UserDAO {
 			fos = new FileOutputStream(file, false);
 			outputFile = new ObjectOutputStream(fos);
 
-			for (User client : users) {
-				outputFile.writeObject(client);
+			for (User user : users) {
+				outputFile.writeObject(user);
 			}
 			outputFile.flush();
 			this.close();
