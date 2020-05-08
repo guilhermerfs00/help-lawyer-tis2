@@ -52,9 +52,9 @@ public class UserDAO {
 		return null;
 	}
 	
-	public User getByName(String name) {
+	public User getByEmail(String email) {
 		for (User user : users) {
-			if (name == user.getName()) {
+			if (email == user.getEmail()) {
 				return user;
 			}
 		}

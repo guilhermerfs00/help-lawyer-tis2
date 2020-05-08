@@ -121,9 +121,9 @@ public class ClientService {
 	}
 	
 	public Object login(Request request, Response response) {
-		String name = request.params(":name");
+		String email = request.params(":email");
 		
-		Client client = (Client) ClientDAO.getByName(name);
+		Client client = (Client) ClientDAO.getByEmail(email);
 		
         if (client != null) {
     	    response.header("Content-Type", "application/xml");

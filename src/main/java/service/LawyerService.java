@@ -141,9 +141,9 @@ public class LawyerService {
 	}
 	
 	public Object login(Request request, Response response) {
-		String name = request.params(":name");
+		String email = request.params(":email");
 		
-		Lawyer lawyer = (Lawyer) LawyerDAO.getByName(name);
+		Lawyer lawyer = (Lawyer) LawyerDAO.getByEmail(email);
 		
         if (lawyer != null) {
     	    response.header("Content-Type", "application/xml");
