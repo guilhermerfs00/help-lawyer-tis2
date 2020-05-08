@@ -27,6 +27,8 @@ public class LawyerApplication {
 
         get("/client", (request, response) -> client.getAll(request, response));
         
+        get("/client/:id", (request, response) -> client.login(request, response));
+        
         post("/lawyer", (request, response) -> lawyer.add(request, response));
 
         get("/lawyer/:id", (request, response) -> lawyer.get(request, response));
@@ -36,6 +38,8 @@ public class LawyerApplication {
         delete("/lawyer/:id", (request, response) -> lawyer.remove(request, response));
 
         get("/lawyer", (request, response) -> lawyer.getAll(request, response));
+        
+        get("/lawyer/:id", (request, response) -> lawyer.login(request, response));
 	}
 
 }

@@ -51,6 +51,15 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	public User getByName(String name) {
+		for (User user : users) {
+			if (name == user.getName()) {
+				return user;
+			}
+		}
+		return null;
+	}
 
 	public void update(User p) {
 		int index = users.indexOf(p);

@@ -5,7 +5,6 @@ import java.io.IOException;
 import dao.UserDAO;
 import model.Lawyer;
 import model.User;
-import model.signatures.*;
 import spark.Request;
 import spark.Response;
 
@@ -139,6 +138,36 @@ public class LawyerService {
 	    response.header("Content-Encoding", "UTF-8");
 		return returnValue.toString();
 
+	}
+	
+	public Object login(Request request, Response response) {
+		String name = request.params(":name");
+		
+		Lawyer lawyer = (Lawyer) LawyerDAO.getByName(name);
+		
+        if (lawyer != null) {
+    	    response.header("Content-Type", "application/xml");
+    	    response.header("Content-Encoding", "UTF-8");
+
+            return "<lawyer>\n" +
+            		"\t<id> " + lawyer.getId() + "</id>\n" +
+            		"\t<name> " + lawyer.getName() + "</name>\n" +
+            		"\t<passwd> " + lawyer.getPasswd() + "</passwd>\n" +
+            		"\t<name> " + lawyer.getName() + "</name>\n" +
+            		"\t<email> " + lawyer.getEmail() + "</email>\n" +
+            		"\t<address> " + lawyer.getAddress() + "</address>\n" +
+            		"\t<phone> " + lawyer.getPhone() + "</phone>\n" +
+            		"\t<birthday> " + lawyer.getBirthday() + "</birthday>\n" +
+            		"\t<document> " + lawyer.getDocument() + "</document>\n" +
+            		"\t<specialization> " + lawyer.getSpecialization() + "</specialization>\n" +
+            		"\t<price> " + lawyer.getPrice() + "</price>\n" +
+            		"\t<disponibility> " + lawyer.getDisponibility() + "</disponibility>\n" +
+            		"\t<signature> " + lawyer.getSignature() + "</signature>\n" +
+            		"</lawyer>\n";
+        } else {
+            response.status(404); // 404 Not found
+            return "Usuario ou senha incorretos.";
+        }
 	}
 
 }

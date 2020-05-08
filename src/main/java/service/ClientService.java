@@ -119,5 +119,29 @@ public class ClientService {
 		return returnValue.toString();
 
 	}
+	
+	public Object login(Request request, Response response) {
+		String name = request.params(":name");
+		
+		Client client = (Client) ClientDAO.getByName(name);
+		
+        if (client != null) {
+    	    response.header("Content-Type", "application/xml");
+    	    response.header("Content-Encoding", "UTF-8");
+
+            return "<client>\n" +
+            		"\t<id> " + client.getId() + "</id>\n" +
+            		"\t<name> " + client.getName() + "</name>\n" +
+            		"\t<passwd> " + client.getPasswd() + "</passwd>\n" +
+            		"\t<email> " + client.getEmail() + "</email>\n" +
+            		"\t<address> " + client.getAddress() + "</address>\n" +
+            		"\t<phone> " + client.getPhone() + "</phone>\n" +
+            		"\t<birthday> " + client.getBirthday() + "</birthday>\n" +
+            		"</client>\n";
+        } else {
+            response.status(404); // 404 Not found
+            return "Usuario ou senha incorretos.";
+        }
+	}
 
 }
