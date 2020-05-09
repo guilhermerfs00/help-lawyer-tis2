@@ -5,143 +5,121 @@ import java.io.IOException;
 import dao.UserDAO;
 import model.Client;
 import model.User;
+import org.json.JSONArray;
 import spark.Request;
 import spark.Response;
 
 public class ClientService {
 
-	private UserDAO ClientDAO;
+    private UserDAO ClientDAO;
 
-	public ClientService() {
-		try {
-			ClientDAO = new UserDAO("client.dat");
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+    public ClientService() {
+        try {
+            ClientDAO = new UserDAO("client.dat");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	public Object add(Request request, Response response) {
-		String name = request.queryParams("name");
-		String email = request.queryParams("email");
-		String address = request.queryParams("address");
-		String phone = request.queryParams("phone");
-		String birthday = request.queryParams("birthday");
-		String passwd = request.queryParams("passwd");
+    public Object add(Request request, Response response) {
+        String name = request.queryParams("name");
+        String email = request.queryParams("email");
+        String address = request.queryParams("address");
+        String phone = request.queryParams("phone");
+        String birthday = request.queryParams("birthday");
+        String passwd = request.queryParams("passwd");
 
-		int id = ClientDAO.getMaxId() + 1;
-		Client client = new Client(id, name, email, address, phone, birthday, passwd);
+        int id = ClientDAO.getMaxId() + 1;
+        Client client = new Client(id, name, email, address, phone, birthday, passwd);
 
-		ClientDAO.add(client);
+        ClientDAO.add(client);
 
-		response.status(201); // 201 Created
-		return id;
-	}
+        response.status(201); // 201 Created
+        return id;
+    }
 
-	public Object get(Request request, Response response) {
-		int id = Integer.parseInt(request.params(":id"));
-		
-		Client client = (Client) ClientDAO.get(id);
-		
+    public Object get(Request request, Response response) {
+        int id = Integer.parseInt(request.params(":id"));
+
+        Client client = (Client) ClientDAO.get(id);
+
         if (client != null) {
-    	    response.header("Content-Type", "application/xml");
-    	    response.header("Content-Encoding", "UTF-8");
+            response.header("Content-Type", "application/json");
+            response.header("Content-Encoding", "UTF-8");
 
-            return "<client>\n" + 
-            		"\t<id> " + client.getId() + "</id>\n" +
-            		"\t<name> " + client.getName() + "</name>\n" +
-            		"\t<email> " + client.getEmail() + "</email>\n" +
-            		"\t<address> " + client.getAddress() + "</address>\n" +
-            		"\t<phone> " + client.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + client.getBirthday() + "</birthday>\n" +
-            		"</client>\n";
+            return client.toJson();
         } else {
             response.status(404); // 404 Not found
             return "Cliente " + id + " nao encontrado.";
         }
 
-	}
+    }
 
-	public Object update(Request request, Response response) {
+    public Object update(Request request, Response response) {
         int id = Integer.parseInt(request.params(":id"));
-        
+
         Client client = (Client) ClientDAO.get(id);
 
         if (client != null) {
-        	client.setName(request.queryParams("name"));
-        	client.setEmail(request.queryParams("email"));
-        	client.setAddress(request.queryParams("address"));
-        	client.setPhone(request.queryParams("phone"));
-        	client.setBirthday(request.queryParams("birthday"));
-        	client.setPasswd(request.queryParams("passwd"));
+            client.setName(request.queryParams("name"));
+            client.setEmail(request.queryParams("email"));
+            client.setAddress(request.queryParams("address"));
+            client.setPhone(request.queryParams("phone"));
+            client.setBirthday(request.queryParams("birthday"));
+            client.setPasswd(request.queryParams("passwd"));
 
-        	ClientDAO.update(client);
-        	
+            ClientDAO.update(client);
+
             return id;
         } else {
             response.status(404); // 404 Not found
             return "Cliente nao encontrado.";
         }
 
-	}
+    }
 
-	public Object remove(Request request, Response response) {
+    public Object remove(Request request, Response response) {
         int id = Integer.parseInt(request.params(":id"));
-        
-		Client client = (Client) ClientDAO.get(id);
+
+        Client client = (Client) ClientDAO.get(id);
 
         if (client != null) {
 
-        	ClientDAO.remove(client);
+            ClientDAO.remove(client);
 
-        	return id;
+            return id;
         } else {
             response.status(404); // 404 Not found
             return "Cliente encontrado.";
         }
-	}
+    }
 
-	public Object getAll(Request request, Response response) {
-		StringBuffer returnValue = new StringBuffer("<client type=\"array\">");
-		for (User user : ClientDAO.getAll()) {
-			Client client = (Client) user;
-			returnValue.append("<client>\n" + 
-            		"\t<id> " + client.getId() + "</id>\n" +
-            		"\t<name> " + client.getName() + "</name>\n" +
-            		"\t<email> " + client.getEmail() + "</email>\n" +
-            		"\t<address> " + client.getAddress() + "</address>\n" +
-            		"\t<phone> " + client.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + client.getBirthday() + "</birthday>\n" +
-            		"</client>\n");
-		}
-		returnValue.append("</client>");
-	    response.header("Content-Type", "application/xml");
-	    response.header("Content-Encoding", "UTF-8");
-		return returnValue.toString();
+    public Object getAll(Request request, Response response) {
+        JSONArray jsonArray = new JSONArray();
+        for (User user : ClientDAO.getAll()) {
+            Client client = (Client) user;
+            jsonArray.put(client.toJson());
+        }
+        response.header("Content-Type", "application/json");
+        response.header("Content-Encoding", "UTF-8");
+        return jsonArray;
 
-	}
-	
-	public Object login(Request request, Response response) {
-		String email = request.params(":email");
-		
-		Client client = (Client) ClientDAO.getByEmail(email);
-		
+    }
+
+    public Object login(Request request, Response response) {
+        String email = request.params(":email");
+
+        Client client = (Client) ClientDAO.getByEmail(email);
+
         if (client != null) {
-    	    response.header("Content-Type", "application/xml");
-    	    response.header("Content-Encoding", "UTF-8");
+            response.header("Content-Type", "application/json");
+            response.header("Content-Encoding", "UTF-8");
 
-            return "<client>\n" +
-            		"\t<id> " + client.getId() + "</id>\n" +
-            		"\t<name> " + client.getName() + "</name>\n" +
-            		"\t<passwd> " + client.getPasswd() + "</passwd>\n" +
-            		"\t<email> " + client.getEmail() + "</email>\n" +
-            		"\t<address> " + client.getAddress() + "</address>\n" +
-            		"\t<phone> " + client.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + client.getBirthday() + "</birthday>\n" +
-            		"</client>\n";
+            return client.toJson();
         } else {
             response.status(404); // 404 Not found
             return "Usuario ou senha incorretos.";
         }
-	}
+    }
 
 }

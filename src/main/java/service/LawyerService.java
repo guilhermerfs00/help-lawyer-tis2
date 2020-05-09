@@ -5,6 +5,7 @@ import java.io.IOException;
 import dao.UserDAO;
 import model.Lawyer;
 import model.User;
+import org.json.JSONArray;
 import spark.Request;
 import spark.Response;
 
@@ -49,22 +50,10 @@ public class LawyerService {
 		Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
 		
         if (lawyer != null) {
-    	    response.header("Content-Type", "application/xml");
+    	    response.header("Content-Type", "application/json");
     	    response.header("Content-Encoding", "UTF-8");
     	    
-            return "<lawyer>\n" + 
-            		"\t<id> " + lawyer.getId() + "</id>\n" +
-            		"\t<name> " + lawyer.getName() + "</name>\n" +
-            		"\t<email> " + lawyer.getEmail() + "</email>\n" +
-            		"\t<address> " + lawyer.getAddress() + "</address>\n" +
-            		"\t<phone> " + lawyer.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + lawyer.getBirthday() + "</birthday>\n" +
-            		"\t<document> " + lawyer.getDocument() + "</document>\n" +
-            		"\t<specialization> " + lawyer.getSpecialization() + "</specialization>\n" +
-            		"\t<price> " + lawyer.getPrice() + "</price>\n" +
-            		"\t<disponibility> " + lawyer.getDisponibility() + "</disponibility>\n" +
-            		"\t<signature> " + lawyer.getSignature() + "</signature>\n" +
-            		"</lawyer>\n";
+            return lawyer.toJson();
         } else {
             response.status(404); // 404 Not found
             return "Advogado " + id + " nao encontrado.";
@@ -116,28 +105,14 @@ public class LawyerService {
 	}
 
 	public Object getAll(Request request, Response response) {
-		StringBuffer returnValue = new StringBuffer("<lawyer type=\"array\">");
+		JSONArray jsonArray = new JSONArray();
 		for (User user : LawyerDAO.getAll()) {
 			Lawyer lawyer = (Lawyer) user;
-			returnValue.append("<lawyer>\n" + 
-            		"\t<id> " + lawyer.getId() + "</id>\n" +
-            		"\t<name> " + lawyer.getName() + "</name>\n" +
-            		"\t<email> " + lawyer.getEmail() + "</email>\n" +
-            		"\t<address> " + lawyer.getAddress() + "</address>\n" +
-            		"\t<phone> " + lawyer.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + lawyer.getBirthday() + "</birthday>\n" +
-            		"\t<document> " + lawyer.getDocument() + "</document>\n" +
-            		"\t<specialization> " + lawyer.getSpecialization() + "</specialization>\n" +
-            		"\t<price> " + lawyer.getPrice() + "</price>\n" +
-            		"\t<disponibility> " + lawyer.getDisponibility() + "</disponibility>\n" +
-            		"\t<signature> " + lawyer.getSignature() + "</signature>\n" +
-            		"</lawyer>\n");
+			jsonArray.put(lawyer.toJson());
 		}
-		returnValue.append("</lawyer>");
-	    response.header("Content-Type", "application/xml");
-	    response.header("Content-Encoding", "UTF-8");
-		return returnValue.toString();
-
+		response.header("Content-Type", "application/json");
+		response.header("Content-Encoding", "UTF-8");
+		return jsonArray;
 	}
 	
 	public Object login(Request request, Response response) {
@@ -146,24 +121,10 @@ public class LawyerService {
 		Lawyer lawyer = (Lawyer) LawyerDAO.getByEmail(email);
 		
         if (lawyer != null) {
-    	    response.header("Content-Type", "application/xml");
+    	    response.header("Content-Type", "application/json");
     	    response.header("Content-Encoding", "UTF-8");
 
-            return "<lawyer>\n" +
-            		"\t<id> " + lawyer.getId() + "</id>\n" +
-            		"\t<name> " + lawyer.getName() + "</name>\n" +
-            		"\t<passwd> " + lawyer.getPasswd() + "</passwd>\n" +
-            		"\t<name> " + lawyer.getName() + "</name>\n" +
-            		"\t<email> " + lawyer.getEmail() + "</email>\n" +
-            		"\t<address> " + lawyer.getAddress() + "</address>\n" +
-            		"\t<phone> " + lawyer.getPhone() + "</phone>\n" +
-            		"\t<birthday> " + lawyer.getBirthday() + "</birthday>\n" +
-            		"\t<document> " + lawyer.getDocument() + "</document>\n" +
-            		"\t<specialization> " + lawyer.getSpecialization() + "</specialization>\n" +
-            		"\t<price> " + lawyer.getPrice() + "</price>\n" +
-            		"\t<disponibility> " + lawyer.getDisponibility() + "</disponibility>\n" +
-            		"\t<signature> " + lawyer.getSignature() + "</signature>\n" +
-            		"</lawyer>\n";
+            return lawyer.toJson();
         } else {
             response.status(404); // 404 Not found
             return "Usuario ou senha incorretos.";
