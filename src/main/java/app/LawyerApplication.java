@@ -1,8 +1,6 @@
 package app;
 
-import service.ClientService;
-import service.LawyerService;
-import service.LoginService;
+import service.*;
 
 import static spark.Spark.*;
 
@@ -17,7 +15,7 @@ public class LawyerApplication {
 
         staticFiles.location("/public");
 
-        get("/", (request, response) -> "Abra por um dos arquivos html em src/main/resources/public");
+        get("/", (request, response) -> "Server on");
 
         post("/client", (request, response) -> client.add(request, response));
 
