@@ -28,7 +28,11 @@ public class ClientService {
         String phone = request.queryParams("phone");
         String birthday = request.queryParams("birthday");
         String passwd = request.queryParams("passwd");
-
+        LoginService aux = new LoginService();
+        if (aux.emailExists(email)) {
+            response.status(404);
+            return -1;
+        }
         int id = ClientDAO.getMaxId() + 1;
         Client client = new Client(id, name, email, address, phone, birthday, passwd);
 
@@ -104,22 +108,6 @@ public class ClientService {
         response.header("Content-Encoding", "UTF-8");
         return jsonArray;
 
-    }
-
-    public Object login(Request request, Response response) {
-        String email = request.params(":email");
-
-        Client client = (Client) ClientDAO.getByEmail(email);
-
-        if (client != null) {
-            response.header("Content-Type", "application/json");
-            response.header("Content-Encoding", "UTF-8");
-
-            return client.toJson();
-        } else {
-            response.status(404); // 404 Not found
-            return "Usuario ou senha incorretos.";
-        }
     }
 
 }

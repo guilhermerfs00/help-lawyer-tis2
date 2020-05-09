@@ -127,7 +127,7 @@ public abstract class User implements Serializable, JsonFormatter  {
 		obj.put("address", this.getAddress());
 		obj.put("phone", this.getPhone());
 		obj.put("birthday", this.getBirthday());
-		obj.put("passwd", this.getBirthday());
+		obj.put("passwd", this.getPasswd());
 		return obj;
 	}
 }
