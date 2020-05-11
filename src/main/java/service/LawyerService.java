@@ -1,11 +1,14 @@
 package service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import dao.UserDAO;
-import model.Client;
 import model.Lawyer;
 import model.User;
+import model.signatures.Free;
+import model.signatures.Signature;
+
 import org.json.JSONArray;
 import spark.Request;
 import spark.Response;
@@ -26,13 +29,13 @@ public class LawyerService {
         String email = request.queryParams("email");
         String address = request.queryParams("address");
         String phone = request.queryParams("phone");
-        String birthday = request.queryParams("birthday");
+        LocalDate birthday = LocalDate.parse((request.queryParams("birthday")));
         String passwd = request.queryParams("passwd");
         String specialization = request.queryParams("specialization");
         String document = request.queryParams("document");
         float price = Float.parseFloat(request.queryParams("price"));
         String disponibility = request.queryParams("disponibility");
-        String signature = "Free";
+        Signature signature = new Free();
         LoginService aux = new LoginService();
         if (aux.emailExists(email)) {
             response.status(404);
@@ -75,7 +78,7 @@ public class LawyerService {
             lawyer.setEmail(request.queryParams("email"));
             lawyer.setAddress(request.queryParams("address"));
             lawyer.setPhone(request.queryParams("phone"));
-            lawyer.setBirthday(request.queryParams("birthday"));
+            lawyer.setBirthday(LocalDate.parse((request.queryParams("birthday"))));
             lawyer.setPasswd(request.queryParams("passwd"));
             lawyer.setDocument(request.queryParams("document"));
             lawyer.setSpecialization(request.queryParams("specialization"));

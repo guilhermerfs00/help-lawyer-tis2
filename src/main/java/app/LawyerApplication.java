@@ -1,6 +1,8 @@
 package app;
 
-import service.*;
+import service.ClientService;
+import service.LawyerService;
+import service.LoginService;
 
 import static spark.Spark.*;
 

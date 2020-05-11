@@ -14,7 +14,11 @@ public class LoginService {
     private UserDAO LawyerDAO;
 
     public LoginService() {
-        try {
+    	updateData();
+    }
+    
+    public void updateData() {
+    	try {
             LawyerDAO = new UserDAO("lawyer.dat");
             ClientDAO = new UserDAO("client.dat");
         } catch (IOException e) {
@@ -23,12 +27,14 @@ public class LoginService {
     }
 
     public boolean emailExists(String email) {
+    	updateData();
         Lawyer lawyer = (Lawyer) LawyerDAO.getByEmail(email);
         Client client = (Client) ClientDAO.getByEmail(email);
         return lawyer != null || client != null;
     }
 
-    public Object login(Request request, Response response) {
+	public Object login(Request request, Response response) {
+		updateData();
         String email = request.params(":email");
         String password = request.queryParams("passwd");
 

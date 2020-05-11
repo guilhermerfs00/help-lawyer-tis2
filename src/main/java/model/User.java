@@ -1,8 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.json.JSONObject;
 
@@ -15,10 +14,10 @@ public abstract class User implements Serializable, JsonFormatter  {
 	private String email;
 	private String address;
 	private String phone;
-	private String birthday;
+	private LocalDate birthday;
 	private String passwd;
 
-	public User(int id, String name, String email, String address, String phone, String birthday,
+	public User(int id, String name, String email, String address, String phone, LocalDate birthday,
 			String passwd) {
 		setName(name);
 		setEmail(email);
@@ -37,18 +36,6 @@ public abstract class User implements Serializable, JsonFormatter  {
 		setBirthday(user.getBirthday());
 		setId(user.getId());
 		setPasswd(user.getPasswd());
-	}
-
-	public void singUp() {
-
-	}
-
-	public void change() {
-
-	}
-
-	public void logIn() {
-
 	}
 	
 	public int getId() {
@@ -91,11 +78,11 @@ public abstract class User implements Serializable, JsonFormatter  {
 		this.phone = phone;
 	}
 
-	public String getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 	

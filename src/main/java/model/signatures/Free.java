@@ -1,12 +1,21 @@
 package model.signatures;
 
-public class Free extends Signature{
-	
-	public static final String description = "Plano básico";
+import java.io.Serializable;
+
+public class Free extends Signature implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	static final String description = "Plano básico";
+	static final String name = "Gratuito"; 
 	
 	@Override
 	public void view() {
 
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

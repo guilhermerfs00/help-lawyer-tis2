@@ -1,6 +1,7 @@
 package service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import dao.UserDAO;
 import model.Client;
@@ -26,7 +27,7 @@ public class ClientService {
         String email = request.queryParams("email");
         String address = request.queryParams("address");
         String phone = request.queryParams("phone");
-        String birthday = request.queryParams("birthday");
+        LocalDate birthday = LocalDate.parse((request.queryParams("birthday")));
         String passwd = request.queryParams("passwd");
         LoginService aux = new LoginService();
         if (aux.emailExists(email)) {
@@ -69,7 +70,7 @@ public class ClientService {
             client.setEmail(request.queryParams("email"));
             client.setAddress(request.queryParams("address"));
             client.setPhone(request.queryParams("phone"));
-            client.setBirthday(request.queryParams("birthday"));
+            client.setBirthday(LocalDate.parse((request.queryParams("birthday"))));
             client.setPasswd(request.queryParams("passwd"));
 
             ClientDAO.update(client);

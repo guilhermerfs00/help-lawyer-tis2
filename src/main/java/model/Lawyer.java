@@ -1,11 +1,11 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDate;
 import org.json.JSONObject;
 
 import model.signatures.Signature;
+
 
 public class Lawyer extends User implements Serializable {
 
@@ -16,10 +16,10 @@ public class Lawyer extends User implements Serializable {
 	private String specialization;
 	private float price;
 	private String disponibility;
-	private String signature;
+	private Signature signature;
 	
-	public Lawyer(int id, String name, String email, String address, String phone, String birthday, String passwd,
-			String specialization, String document, float price, String disponibility, String signature) {
+	public Lawyer(int id, String name, String email, String address, String phone, LocalDate birthday, String passwd,
+			String specialization, String document, float price, String disponibility, Signature signature) {
 		super(id, name, email, address, phone, birthday, passwd);
 		setDocument(document);
 		setSpecialization(specialization);
@@ -28,7 +28,7 @@ public class Lawyer extends User implements Serializable {
 		setSignature(signature);
 	}
 	
-	public Lawyer(User user,String specialization, String document, float price, String disponibility, String signature) {
+	public Lawyer(User user,String specialization, String document, float price, String disponibility, Signature signature) {
 		super(user);
 		setDocument(document);
 		setSpecialization(specialization);
@@ -38,11 +38,11 @@ public class Lawyer extends User implements Serializable {
 	}
 	
 
-	public String getSignature() {
+	public Signature getSignature() {
 		return signature;
 	}
 
-	public void setSignature(String signature) {
+	public void setSignature(Signature signature) {
 		this.signature = signature;
 	}
 
@@ -92,9 +92,9 @@ public class Lawyer extends User implements Serializable {
 		obj.put("rate", this.getRate());
 		obj.put("document", this.getDocument());
 		obj.put("specialization", this.getSpecialization());
-		obj.put("price", this.getPrice());
+		obj.put("price", Float.toString(this.getPrice()));
 		obj.put("disponibility", this.getDisponibility());
-		obj.put("signature", this.getSignature());
+		obj.put("signature", this.getSignature().toString());
 		return obj;
 	}
 	
