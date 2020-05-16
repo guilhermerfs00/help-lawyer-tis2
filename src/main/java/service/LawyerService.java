@@ -17,14 +17,19 @@ public class LawyerService {
     private UserDAO LawyerDAO;
 
     public LawyerService() {
-        try {
-            LawyerDAO = new UserDAO("lawyer.dat");
+    	updateData();
+    }
+    
+    private void updateData() {
+    	try {
+    		LawyerDAO = new UserDAO("lawyer.dat");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public Object add(Request request, Response response) {
+    	updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
         String address = request.queryParams("address");
@@ -52,6 +57,7 @@ public class LawyerService {
     }
 
     public Object get(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -69,6 +75,7 @@ public class LawyerService {
     }
 
     public Object update(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -96,6 +103,7 @@ public class LawyerService {
     }
 
     public Object remove(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -112,6 +120,7 @@ public class LawyerService {
     }
 
     public Object getAll(Request request, Response response) {
+    	updateData();
         JSONArray jsonArray = new JSONArray();
         for (User user : LawyerDAO.getAll()) {
             Lawyer lawyer = (Lawyer) user;

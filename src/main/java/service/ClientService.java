@@ -15,7 +15,11 @@ public class ClientService {
     private UserDAO ClientDAO;
 
     public ClientService() {
-        try {
+        updateData();
+    }
+    
+    private void updateData() {
+    	try {
             ClientDAO = new UserDAO("client.dat");
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -23,6 +27,7 @@ public class ClientService {
     }
 
     public Object add(Request request, Response response) {
+    	updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
         String address = request.queryParams("address");
@@ -44,6 +49,7 @@ public class ClientService {
     }
 
     public Object get(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -61,6 +67,7 @@ public class ClientService {
     }
 
     public Object update(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -84,6 +91,7 @@ public class ClientService {
     }
 
     public Object remove(Request request, Response response) {
+    	updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -100,6 +108,7 @@ public class ClientService {
     }
 
     public Object getAll(Request request, Response response) {
+    	updateData();
         JSONArray jsonArray = new JSONArray();
         for (User user : ClientDAO.getAll()) {
             Client client = (Client) user;

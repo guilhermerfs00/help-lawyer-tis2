@@ -5,6 +5,7 @@ import service.LawyerService;
 import service.LoginService;
 
 import static spark.Spark.*;
+import spark.Filter;
 
 public class LawyerApplication {
 
@@ -14,8 +15,11 @@ public class LawyerApplication {
 
     public static void main(String[] args) {
         port(6789);
-
-        staticFiles.location("/public");
+        
+        after((Filter) (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "*");
+        });
 
         get("/", (request, response) -> "Server on");
 
