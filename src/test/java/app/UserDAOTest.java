@@ -1,13 +1,9 @@
-/*
 package app;
 
 import org.junit.Test;
 
-class LawyerApplicationTests {
-
+public class UserDAOTest {
 	@Test
 	void contextLoads() {
 	}
-
 }
-*/
