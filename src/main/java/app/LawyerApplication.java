@@ -4,7 +4,12 @@ import service.ClientService;
 import service.LawyerService;
 import service.LoginService;
 
-import static spark.Spark.*;
+import static spark.Spark.port;
+import static spark.Spark.post;
+import static spark.Spark.put;
+import static spark.Spark.get;
+import static spark.Spark.delete;
+import static spark.Spark.after;
 import spark.Filter;
 
 public class LawyerApplication {
