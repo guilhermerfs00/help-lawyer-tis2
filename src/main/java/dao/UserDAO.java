@@ -51,7 +51,7 @@ public class UserDAO {
 		}
 		return null;
 	}
-	
+
 	public User getByEmail(String email) {
 		for (User user : users) {
 			if (email.equals(user.getEmail())) {

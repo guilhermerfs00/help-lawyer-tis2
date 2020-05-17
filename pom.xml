@@ -13,7 +13,7 @@
 	<artifactId>lawyer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>lawyer</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo</description>
 
 	<properties>
 		<java.version>13</java.version>
@@ -45,16 +45,6 @@
 			<artifactId>json</artifactId>
 			<version>20190722</version>
 		</dependency>
-
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
