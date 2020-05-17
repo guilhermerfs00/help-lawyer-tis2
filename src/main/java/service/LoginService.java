@@ -3,11 +3,13 @@ package service;
 import dao.UserDAO;
 import model.Client;
 import model.Lawyer;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import spark.Request;
 import spark.Response;
 
 import java.io.IOException;
 
+@CrossOrigin(maxAge = 3600)
 public class LoginService {
 
     private UserDAO ClientDAO;

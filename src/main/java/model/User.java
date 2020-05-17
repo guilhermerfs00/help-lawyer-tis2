@@ -5,118 +5,124 @@ import java.time.LocalDate;
 
 import org.json.JSONObject;
 
-public abstract class User implements Serializable, JsonFormatter  {
+public abstract class User implements Serializable, JsonFormatter {
 
-	private static final long serialVersionUID = 1L;
-	
-	private int id;
-	private String name;
-	private String email;
-	private String address;
-	private String phone;
-	private LocalDate birthday;
-	private String passwd;
+    private static final long serialVersionUID = 1L;
 
-	public User(int id, String name, String email, String address, String phone, LocalDate birthday,
-			String passwd) {
-		setName(name);
-		setEmail(email);
-		setAddress(address);
-		setPhone(phone);
-		setBirthday(birthday);
-		setId(id);
-		setPasswd(passwd);
-	}
-	
-	public User(User user) {
-		setName(user.getName());
-		setEmail(user.getEmail());
-		setAddress(user.getAddress());
-		setPhone(user.getPhone());
-		setBirthday(user.getBirthday());
-		setId(user.getId());
-		setPasswd(user.getPasswd());
-	}
-	
-	public int getId() {
-		return id;
-	}
+    private int id;
+    private String name;
+    private String email;
+    private String address;
+    private String phone;
+    private LocalDate birthday;
+    private String passwd;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public User(int id, String name, String email, String address, String phone, LocalDate birthday,
+                String passwd) {
+        setName(name);
+        setEmail(email);
+        setAddress(address);
+        setPhone(phone);
+        setBirthday(birthday);
+        setId(id);
+        setPasswd(passwd);
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public User(User user) {
+        setName(user.getName());
+        setEmail(user.getEmail());
+        setAddress(user.getAddress());
+        setPhone(user.getPhone());
+        setBirthday(user.getBirthday());
+        setId(user.getId());
+        setPasswd(user.getPasswd());
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setEmail(String email) {
+        if (!email.isEmpty())
+            this.email = email;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setName(String name) {
+        if (!name.isEmpty())
+            this.name = name;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public LocalDate getBirthday() {
-		return birthday;
-	}
+    public void setAddress(String address) {
+        if (!address.isEmpty())
+            this.address = address;
+    }
 
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
-	}
-	
-	public String getPasswd() {
-		return passwd;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
-	}
-	
-	@Override
-	public String toString() {
-		return " ID: " + id + "\n Usuario: " + name + "\n Email: " + email + "\n Telefone: " + phone
-				+ "\n Data de nascimento: " + birthday;
-	}
+    public void setPhone(String phone) {
+        if (!phone.isEmpty())
+            this.phone = phone;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return (this.getId() == ((User) obj).getId());
-	}
-	
-	@Override
-	public JSONObject toJson() {
-		JSONObject obj = new JSONObject();
-		obj.put("id", this.getId());
-		obj.put("name", this.getName());
-		obj.put("email", this.getEmail());
-		obj.put("address", this.getAddress());
-		obj.put("phone", this.getPhone());
-		obj.put("birthday", this.getBirthday());
-		obj.put("passwd", this.getPasswd());
-		return obj;
-	}
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        if (!birthday.toString().isEmpty())
+            this.birthday = birthday;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        if (!passwd.isEmpty())
+            this.passwd = passwd;
+    }
+
+    @Override
+    public String toString() {
+        return " ID: " + id + "\n Usuario: " + name + "\n Email: " + email + "\n Telefone: " + phone
+                + "\n Data de nascimento: " + birthday;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (this.getId() == ((User) obj).getId());
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", this.getId());
+        obj.put("name", this.getName());
+        obj.put("email", this.getEmail());
+        obj.put("address", this.getAddress());
+        obj.put("phone", this.getPhone());
+        obj.put("birthday", this.getBirthday());
+        obj.put("passwd", this.getPasswd());
+        return obj;
+    }
 }
 
 

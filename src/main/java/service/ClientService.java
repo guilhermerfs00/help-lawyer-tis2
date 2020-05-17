@@ -7,9 +7,11 @@ import dao.UserDAO;
 import model.Client;
 import model.User;
 import org.json.JSONArray;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import spark.Request;
 import spark.Response;
 
+@CrossOrigin(maxAge = 3600)
 public class ClientService {
 
     private UserDAO ClientDAO;

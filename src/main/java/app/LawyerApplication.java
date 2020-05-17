@@ -1,11 +1,13 @@
 package app;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import service.ClientService;
 import service.LawyerService;
 import service.LoginService;
 
 import static spark.Spark.*;
 
+@CrossOrigin(maxAge = 3600)
 public class LawyerApplication {
 
     private static ClientService client = new ClientService();
