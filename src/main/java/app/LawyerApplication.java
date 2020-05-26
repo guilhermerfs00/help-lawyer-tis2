@@ -8,10 +8,9 @@ import service.LoginService;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.staticFiles;
 import static spark.Spark.get;
 import static spark.Spark.delete;
-import static spark.Spark.after;
-import spark.Filter;
 
 @CrossOrigin(maxAge = 3600)
 public class LawyerApplication {
@@ -23,10 +22,7 @@ public class LawyerApplication {
     public static void main(String[] args) {
         port(6789);
         
-        after((Filter) (request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-            response.header("Access-Control-Allow-Methods", "*");
-        });
+        staticFiles.location("/public");
 
         get("/", (request, response) -> "Server on");
 
