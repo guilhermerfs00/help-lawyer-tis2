@@ -81,9 +81,12 @@ public class LawyerService {
         updateData();
         String query = request.queryParams("query");
         List<Lawyer> lawyerList = new ArrayList<>();
-        List<User> users = LawyerDAO.searchByQuery(query);
-        for (User user : users) {
-            lawyerList.add((Lawyer) user);
+        for (User user : LawyerDAO.getAll()) {
+            Lawyer lawyer = (Lawyer) user;
+            if (lawyer.getEmail().toLowerCase().contains(query.toLowerCase()) || lawyer.getName().toLowerCase().contains(query.toLowerCase())
+                    || lawyer.getAddress().toLowerCase().contains(query.toLowerCase()) || lawyer.getSpecialization().toLowerCase().contains(query)) {
+                lawyerList.add(lawyer);
+            }
         }
         JSONArray jsonArray = new JSONArray();
         for (Lawyer lawyer : lawyerList) {
