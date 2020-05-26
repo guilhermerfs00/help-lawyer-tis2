@@ -2,36 +2,37 @@ package service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.UserDAO;
+import model.Client;
 import model.Lawyer;
 import model.User;
 import model.signatures.Free;
 import model.signatures.Signature;
 
 import org.json.JSONArray;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import spark.Request;
 import spark.Response;
 
-@CrossOrigin(maxAge = 3600)
 public class LawyerService {
     private UserDAO LawyerDAO;
 
     public LawyerService() {
-    	updateData();
+        updateData();
     }
-    
+
     private void updateData() {
-    	try {
-    		LawyerDAO = new UserDAO("lawyer.dat");
+        try {
+            LawyerDAO = new UserDAO("lawyer.dat");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public Object add(Request request, Response response) {
-    	updateData();
+        updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
         String address = request.queryParams("address");
@@ -59,7 +60,7 @@ public class LawyerService {
     }
 
     public Object get(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -76,8 +77,26 @@ public class LawyerService {
 
     }
 
+    public Object search(Request request, Response response) {
+        updateData();
+        String query = request.queryParams("query");
+        List<Lawyer> lawyerList = new ArrayList<>();
+        List<User> users = LawyerDAO.searchByQuery(query);
+        for (User user : users) {
+            lawyerList.add((Lawyer) user);
+        }
+        JSONArray jsonArray = new JSONArray();
+        for (Lawyer lawyer : lawyerList) {
+            jsonArray.put(lawyer.toJson());
+        }
+        response.header("Content-Type", "application/json");
+        response.header("Content-Encoding", "UTF-8");
+
+        return jsonArray;
+    }
+
     public Object update(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -105,7 +124,7 @@ public class LawyerService {
     }
 
     public Object remove(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
@@ -122,7 +141,7 @@ public class LawyerService {
     }
 
     public Object getAll(Request request, Response response) {
-    	updateData();
+        updateData();
         JSONArray jsonArray = new JSONArray();
         for (User user : LawyerDAO.getAll()) {
             Lawyer lawyer = (Lawyer) user;

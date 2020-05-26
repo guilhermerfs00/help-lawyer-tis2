@@ -2,16 +2,16 @@ package service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.UserDAO;
 import model.Client;
 import model.User;
 import org.json.JSONArray;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import spark.Request;
 import spark.Response;
 
-@CrossOrigin(maxAge = 3600)
 public class ClientService {
 
     private UserDAO ClientDAO;
@@ -19,9 +19,9 @@ public class ClientService {
     public ClientService() {
         updateData();
     }
-    
+
     private void updateData() {
-    	try {
+        try {
             ClientDAO = new UserDAO("client.dat");
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -29,7 +29,7 @@ public class ClientService {
     }
 
     public Object add(Request request, Response response) {
-    	updateData();
+        updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
         String address = request.queryParams("address");
@@ -51,7 +51,7 @@ public class ClientService {
     }
 
     public Object get(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -68,8 +68,26 @@ public class ClientService {
 
     }
 
+    public Object search(Request request, Response response) {
+        updateData();
+        String query = request.queryParams("query");
+        List<Client> clientList = new ArrayList<>();
+        List<User> users = ClientDAO.searchByQuery(query);
+        for (User user : users) {
+            clientList.add((Client) user);
+        }
+        JSONArray jsonArray = new JSONArray();
+        for (Client client : clientList) {
+            jsonArray.put(client.toJson());
+        }
+        response.header("Content-Type", "application/json");
+        response.header("Content-Encoding", "UTF-8");
+
+        return jsonArray;
+    }
+
     public Object update(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -93,7 +111,7 @@ public class ClientService {
     }
 
     public Object remove(Request request, Response response) {
-    	updateData();
+        updateData();
         int id = Integer.parseInt(request.params(":id"));
 
         Client client = (Client) ClientDAO.get(id);
@@ -110,7 +128,7 @@ public class ClientService {
     }
 
     public Object getAll(Request request, Response response) {
-    	updateData();
+        updateData();
         JSONArray jsonArray = new JSONArray();
         for (User user : ClientDAO.getAll()) {
             Client client = (Client) user;

@@ -1,6 +1,5 @@
 package app;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import service.ClientService;
 import service.LawyerService;
 import service.LoginService;
@@ -11,8 +10,10 @@ import static spark.Spark.put;
 import static spark.Spark.staticFiles;
 import static spark.Spark.get;
 import static spark.Spark.delete;
+import static spark.Spark.after;
 
-@CrossOrigin(maxAge = 3600)
+import spark.Filter;
+
 public class LawyerApplication {
 
     private static ClientService client = new ClientService();
@@ -21,8 +22,12 @@ public class LawyerApplication {
 
     public static void main(String[] args) {
         port(6789);
-        
         staticFiles.location("/public");
+
+        after((Filter) (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "*");
+        });
 
         get("/", (request, response) -> "Server on");
 
@@ -34,7 +39,9 @@ public class LawyerApplication {
 
         delete("/client/:id", (request, response) -> client.remove(request, response));
 
-        get("/client", (request, response) -> client.getAll(request, response));
+//        get("/client", (request, response) -> client.getAll(request, response));
+
+        get("/client", (request, response) -> client.search(request, response));
 
         post("/lawyer", (request, response) -> lawyer.add(request, response));
 
@@ -44,7 +51,9 @@ public class LawyerApplication {
 
         delete("/lawyer/:id", (request, response) -> lawyer.remove(request, response));
 
-        get("/lawyer", (request, response) -> lawyer.getAll(request, response));
+//        get("/lawyer", (request, response) -> lawyer.getAll(request, response));
+
+        get("/lawyer", (request, response) -> lawyer.search(request, response));
 
         get("/login/:email", (request, response) -> loginService.login(request, response));
     }

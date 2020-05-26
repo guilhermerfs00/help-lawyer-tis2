@@ -131,4 +131,14 @@ public class UserDAO {
 		}
 	}
 
+	public List<User> searchByQuery(String query) {
+		List<User> aux = new ArrayList<>();
+		for (User user : users) {
+			if (user.getEmail().toLowerCase().contains(query.toLowerCase()) || user.getName().toLowerCase().contains(query.toLowerCase())
+					|| user.getAddress().toLowerCase().contains(query.toLowerCase())) {
+				aux.add(user);
+			}
+		}
+		return aux;
+	}
 }

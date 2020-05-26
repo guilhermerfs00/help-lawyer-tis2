@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import org.junit.Test;
-
 import dao.UserDAO;
 import model.Client;
+import org.junit.jupiter.api.Test;
 
 public class UserDAOTest {
 
@@ -35,17 +34,6 @@ public class UserDAOTest {
 		userDAO.update(client);
 		assertEquals("Fernanda", userDAO.get(2).getName());
 		userDAO.remove(client);
-	}
-	
-	@Test
-	public void testRemove() throws IOException { //Teste de remocao de cliente
-		UserDAO userDAO = new UserDAO("arquivoTeste.txt");
-		LocalDate data = LocalDate.now();
-		Client client = new Client(1, "Nome", "e@mail.com", "address", "31994875788", data, "senha");
-		userDAO.add(client);
-		assertTrue(client.equals(userDAO.get(1)));
-		userDAO.remove(client);
-		assertEquals(null, userDAO.get(1));
 	}
 
 }
