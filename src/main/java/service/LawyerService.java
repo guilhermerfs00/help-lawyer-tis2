@@ -43,6 +43,8 @@ public class LawyerService {
         String document = request.queryParams("document");
         float price = Float.parseFloat(request.queryParams("price"));
         String disponibility = request.queryParams("disponibility");
+        String municipio = request.queryParams("municipio");
+        String uf = request.queryParams("uf");
         Signature signature = new Free();
         LoginService aux = new LoginService();
         if (aux.emailExists(email)) {
@@ -51,7 +53,7 @@ public class LawyerService {
         }
         int id = LawyerDAO.getMaxId() + 1;
         Lawyer lawyer = new Lawyer(id, name, email, address, phone, birthday, passwd, specialization, document, price,
-                disponibility, signature);
+                disponibility, signature, municipio, uf);
 
         LawyerDAO.add(lawyer);
 
