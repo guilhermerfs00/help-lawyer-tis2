@@ -54,6 +54,12 @@ public class LawyerApplication {
 //        get("/lawyer", (request, response) -> lawyer.getAll(request, response));
 
         get("/lawyer", (request, response) -> lawyer.search(request, response));
+        
+        put("/lawyer/:id", (request, response) -> lawyer.upgrade(request, response));
+        
+        put("/lawyer/:id", (request, response) -> lawyer.downgrade(request, response));
+        
+        put("/lawyer/:id", (request, response) -> lawyer.rate(request, response));
 
         get("/login/:email", (request, response) -> loginService.login(request, response));
     }

@@ -12,15 +12,19 @@ public abstract class User implements Serializable, JsonFormatter {
     private int id;
     private String name;
     private String email;
+	private String state;
+    private String city;
     private String address;
     private String phone;
     private LocalDate birthday;
     private String passwd;
 
-    public User(int id, String name, String email, String address, String phone, LocalDate birthday,
-                String passwd) {
+    public User(int id, String name, String email, String state, String city, String address, 
+    		String phone, LocalDate birthday, String passwd) {
         setName(name);
         setEmail(email);
+        setState(state);
+        setCity(city);
         setAddress(address);
         setPhone(phone);
         setBirthday(birthday);
@@ -31,6 +35,8 @@ public abstract class User implements Serializable, JsonFormatter {
     public User(User user) {
         setName(user.getName());
         setEmail(user.getEmail());
+        setState(user.getState());
+        setCity(user.getCity());
         setAddress(user.getAddress());
         setPhone(user.getPhone());
         setBirthday(user.getBirthday());
@@ -99,6 +105,22 @@ public abstract class User implements Serializable, JsonFormatter {
         if (!passwd.isEmpty())
             this.passwd = passwd;
     }
+    
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String uf) {
+		this.state = uf;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
     @Override
     public String toString() {
@@ -117,6 +139,8 @@ public abstract class User implements Serializable, JsonFormatter {
         obj.put("id", this.getId());
         obj.put("name", this.getName());
         obj.put("email", this.getEmail());
+        obj.put("uf", this.getState());
+        obj.put("municipio", this.getCity());
         obj.put("address", this.getAddress());
         obj.put("phone", this.getPhone());
         obj.put("birthday", this.getBirthday());

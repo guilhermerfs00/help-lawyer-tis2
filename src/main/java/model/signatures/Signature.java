@@ -8,6 +8,7 @@ public abstract class Signature implements Serializable{
 	public static String description;
 	public static String name;
 
-	public void view() {
+	public boolean view() {
+		return false;
 	}
 }

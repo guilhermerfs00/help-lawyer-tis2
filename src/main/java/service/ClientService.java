@@ -32,6 +32,8 @@ public class ClientService {
         updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
+        String state = request.queryParams("uf");
+        String city = request.queryParams("municipio");
         String address = request.queryParams("address");
         String phone = request.queryParams("phone");
         LocalDate birthday = LocalDate.parse((request.queryParams("birthday")));
@@ -42,7 +44,7 @@ public class ClientService {
             return -1;
         }
         int id = ClientDAO.getMaxId() + 1;
-        Client client = new Client(id, name, email, address, phone, birthday, passwd);
+        Client client = new Client(id, name, email, state, city, address, phone, birthday, passwd);
 
         ClientDAO.add(client);
 
@@ -95,6 +97,8 @@ public class ClientService {
         if (client != null) {
             client.setName(request.queryParams("name"));
             client.setEmail(request.queryParams("email"));
+            client.setState(request.queryParams("uf"));
+            client.setCity(request.queryParams("municipio"));
             client.setAddress(request.queryParams("address"));
             client.setPhone(request.queryParams("phone"));
             client.setBirthday(LocalDate.parse((request.queryParams("birthday"))));

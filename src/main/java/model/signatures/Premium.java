@@ -9,13 +9,13 @@ public class Premium extends Signature implements Serializable{
 	static final String name = "Premium"; 
 	
 	@Override
-	public void view() {
-
+	public boolean view() {
+		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+		return name + ": " + description;
 	}
 
 }

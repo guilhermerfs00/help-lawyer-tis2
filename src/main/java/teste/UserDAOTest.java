@@ -16,7 +16,7 @@ public class UserDAOTest {
 	public void testAdd() throws IOException { //Teste p/ adicionar cliente
 		UserDAO userDAO = new UserDAO("arquivoTeste.txt");
 		LocalDate data = LocalDate.now();
-		Client client = new Client(1, "Nome", "e@mail.com", "address", "31994875788", data, "senha");
+		Client client = new Client(1, "Nome", "e@mail.com", "estado", "cidade", "address", "31994875788", data, "senha");
 		userDAO.add(client);
 		assertTrue(client.equals(userDAO.get(1)));
 		userDAO.remove(client);
@@ -26,11 +26,11 @@ public class UserDAOTest {
 	public void testUpdate() throws IOException { //Teste de atualizacao de cliente
 		UserDAO userDAO = new UserDAO("arquivoTeste.txt");
 		LocalDate data = LocalDate.now(); 
-		Client client = new Client(2, "Roberto", "e@mail.com", "address", "31994875788", data, "senha");
+		Client client = new Client(2, "Roberto", "e@mail.com", "estado", "cidade", "address", "31994875788", data, "senha");
 		userDAO.add(client);
 		assertTrue(client.equals(userDAO.get(2)));
 		data = LocalDate.ofYearDay(1996, 300);
-		client = new Client(2, "Fernanda", "e@mail.com", "address", "31994875788", data, "senha");
+		client = new Client(2, "Fernanda", "e@mail.com", "estado", "cidade", "address", "31994875788", data, "senha");
 		userDAO.update(client);
 		assertEquals("Fernanda", userDAO.get(2).getName());
 		userDAO.remove(client);

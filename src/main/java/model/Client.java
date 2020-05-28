@@ -8,9 +8,9 @@ public class Client extends User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Client(int id, String name, String email, String address, String phone, LocalDate birthday,
-			String passwd) {
-		super(id, name, email, address, phone, birthday, passwd);
+	public Client(int id, String name, String email, String state, String city, String address, String phone,
+			LocalDate birthday,	String passwd) {
+		super(id, name, email, state, city, address, phone, birthday, passwd);
 	}
 
 	public Lawyer[] search(String area) {

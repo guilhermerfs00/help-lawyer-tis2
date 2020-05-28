@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.UserDAO;
-import model.Client;
 import model.Lawyer;
 import model.User;
 import model.signatures.Free;
+import model.signatures.Premium;
 import model.signatures.Signature;
 
 import org.json.JSONArray;
@@ -35,6 +35,8 @@ public class LawyerService {
         updateData();
         String name = request.queryParams("name");
         String email = request.queryParams("email");
+        String state = request.queryParams("uf");
+        String city = request.queryParams("municipio");
         String address = request.queryParams("address");
         String phone = request.queryParams("phone");
         LocalDate birthday = LocalDate.parse((request.queryParams("birthday")));
@@ -43,8 +45,6 @@ public class LawyerService {
         String document = request.queryParams("document");
         float price = Float.parseFloat(request.queryParams("price"));
         String disponibility = request.queryParams("disponibility");
-        String municipio = request.queryParams("municipio");
-        String uf = request.queryParams("uf");
         Signature signature = new Free();
         LoginService aux = new LoginService();
         if (aux.emailExists(email)) {
@@ -52,8 +52,8 @@ public class LawyerService {
             return -1;
         }
         int id = LawyerDAO.getMaxId() + 1;
-        Lawyer lawyer = new Lawyer(id, name, email, address, phone, birthday, passwd, specialization, document, price,
-                disponibility, signature, municipio, uf);
+        Lawyer lawyer = new Lawyer(id, name, email, state, city, address, phone, birthday, passwd,
+        		specialization, document, price, disponibility, signature);
 
         LawyerDAO.add(lawyer);
 
@@ -109,6 +109,8 @@ public class LawyerService {
         if (lawyer != null) {
             lawyer.setName(request.queryParams("name"));
             lawyer.setEmail(request.queryParams("email"));
+            lawyer.setState(request.queryParams("uf"));
+            lawyer.setCity(request.queryParams("municipio"));
             lawyer.setAddress(request.queryParams("address"));
             lawyer.setPhone(request.queryParams("phone"));
             lawyer.setBirthday(LocalDate.parse((request.queryParams("birthday"))));
@@ -117,6 +119,64 @@ public class LawyerService {
             lawyer.setSpecialization(request.queryParams("specialization"));
             lawyer.setPrice(Float.parseFloat(request.queryParams("price")));
             lawyer.setDisponibility(request.queryParams("disponibility"));
+
+            LawyerDAO.update(lawyer);
+
+            return id;
+        } else {
+            response.status(404); // 404 Not found
+            return "Advogado nao encontrado.";
+        }
+
+    }
+    //Mudar plano para Premium
+    public Object upgrade(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+
+        Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
+
+        if (lawyer != null) {
+            lawyer.setSignature(new Premium());
+
+            LawyerDAO.update(lawyer);
+
+            return id;
+        } else {
+            response.status(404); // 404 Not found
+            return "Advogado nao encontrado.";
+        }
+
+    }
+    //Voltar pro plano gratuito
+    public Object downgrade(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+
+        Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
+
+        if (lawyer != null) {
+            lawyer.setSignature(new Free());
+
+            LawyerDAO.update(lawyer);
+
+            return id;
+        } else {
+            response.status(404); // 404 Not found
+            return "Advogado nao encontrado.";
+        }
+
+    }
+    
+    //Ainda nao coloquei pra limitar pra um voto por cliente, se funcionar coloco dpois
+    public Object rate(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+        
+        Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
+
+        if (lawyer != null) {
+            lawyer.setRate(Integer.parseInt(request.queryParams("rate")));
 
             LawyerDAO.update(lawyer);
 

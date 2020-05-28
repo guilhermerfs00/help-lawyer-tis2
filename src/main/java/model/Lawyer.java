@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -13,24 +14,22 @@ public class Lawyer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int rate = 0;
+    private List<Integer> rates;
     private String document;
     private String specialization;
     private float price;
     private String disponibility;
     private Signature signature;
-    private String municipio;
-    private String uf;
 
-    public Lawyer(int id, String name, String email, String address, String phone, LocalDate birthday, String passwd,
-                  String specialization, String document, float price, String disponibility, Signature signature, String municipio, String uf) {
-        super(id, name, email, address, phone, birthday, passwd);
+    public Lawyer(int id, String name, String email, String state, String city, String address, String phone,
+    		LocalDate birthday, String passwd, String specialization, String document, float price,
+    		String disponibility, Signature signature) {
+        super(id, name, email, state, city, address, phone, birthday, passwd);
         setDocument(document);
         setSpecialization(specialization);
         setPrice(price);
         setDisponibility(disponibility);
         setSignature(signature);
-        this.municipio = municipio;
-        this.uf = uf;
     }
 
     public Lawyer(User user, String specialization, String document, float price, String disponibility, Signature signature) {
@@ -56,7 +55,12 @@ public class Lawyer extends User implements Serializable {
     }
 
     public void setRate(int rate) {
-        this.rate = rate;
+        this.rates.add(rate); //adiciona a nota em uma lista
+        int aux = 0;
+        for(int i = 0; i < rates.size(); i++) { //soma todas as notas
+    		aux += rates.get(i);
+    	}
+        this.rate = aux / rates.size(); //divide pela quantidade, tendo a media e salvando na variavel
     }
 
     public String getDocument() {
@@ -100,8 +104,6 @@ public class Lawyer extends User implements Serializable {
         obj.put("price", Float.toString(this.getPrice()));
         obj.put("disponibility", this.getDisponibility());
         obj.put("signature", this.getSignature().toString());
-        obj.put("uf", this.uf);
-        obj.put("municipio", this.municipio);
         return obj;
     }
 

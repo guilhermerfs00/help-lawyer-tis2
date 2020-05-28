@@ -9,13 +9,8 @@ public class Free extends Signature implements Serializable{
 	static final String name = "Gratuito"; 
 	
 	@Override
-	public void view() {
-
-	}
-	
-	@Override
 	public String toString() {
-		return name;
+		return name + ": " + description;
 	}
 
 }
