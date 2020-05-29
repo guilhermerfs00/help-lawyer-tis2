@@ -49,11 +49,11 @@ public class LawyerApplication {
 
         get("/lawyer", (request, response) -> lawyer.search(request, response));
         
-        put("/lawyer/:id", (request, response) -> lawyer.upgrade(request, response));
+        put("/lawyer/:id/upgrade", (request, response) -> lawyer.upgrade(request, response));
         
-        put("/lawyer/:id", (request, response) -> lawyer.downgrade(request, response));
+        put("/lawyer/:id/downgrade", (request, response) -> lawyer.downgrade(request, response));
         
-        put("/lawyer/:id", (request, response) -> lawyer.rate(request, response));
+        put("/lawyer/:id/rate", (request, response) -> lawyer.rate(request, response));
 
         get("/login/:email", (request, response) -> loginService.login(request, response));
     }
@@ -79,7 +79,6 @@ public class LawyerApplication {
             response.header("Access-Control-Allow-Origin", origin);
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
-            // Note: this may or may not be necessary in your particular application
             response.type("application/json");
         });
     }
