@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -55,6 +56,8 @@ public class Lawyer extends User implements Serializable {
     }
 
     public void setRate(int rate) {
+        if(rates == null)
+    		rates = new ArrayList<Integer>();
         this.rates.add(rate); //adiciona a nota em uma lista
         int aux = 0;
         for(int i = 0; i < rates.size(); i++) { //soma todas as notas
