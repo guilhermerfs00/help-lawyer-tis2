@@ -3,6 +3,8 @@ package service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import dao.UserDAO;
@@ -53,7 +55,7 @@ public class LawyerService {
         }
         int id = LawyerDAO.getMaxId() + 1;
         Lawyer lawyer = new Lawyer(id, name, email, state, city, address, phone, birthday, passwd,
-        		specialization, document, price, disponibility, signature);
+                specialization, document, price, disponibility, signature);
 
         LawyerDAO.add(lawyer);
 
@@ -90,6 +92,22 @@ public class LawyerService {
                 lawyerList.add(lawyer);
             }
         }
+
+        Collections.sort(lawyerList, new Comparator<Lawyer>() {
+            @Override
+            public int compare(Lawyer o1, Lawyer o2) {
+                if (o1.getSignature() != null && o2.getSignature() != null) {
+                    if (o1.getSignature().equals(o2.getSignature()))
+                        return 0;
+                    if (o1.getSignature() instanceof Free && o2.getSignature() instanceof Premium) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+                return 0;
+            }
+        });
         JSONArray jsonArray = new JSONArray();
         for (Lawyer lawyer : lawyerList) {
             jsonArray.put(lawyer.toJson());
@@ -129,6 +147,7 @@ public class LawyerService {
         }
 
     }
+
     //Mudar plano para Premium
     public Object upgrade(Request request, Response response) {
         updateData();
@@ -148,6 +167,7 @@ public class LawyerService {
         }
 
     }
+
     //Voltar pro plano gratuito
     public Object downgrade(Request request, Response response) {
         updateData();
@@ -167,12 +187,12 @@ public class LawyerService {
         }
 
     }
-    
+
     //Ainda nao coloquei pra limitar pra um voto por cliente, se funcionar coloco dpois
     public Object rate(Request request, Response response) {
         updateData();
         int id = Integer.parseInt(request.params(":id"));
-        
+
         Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
 
         if (lawyer != null) {
