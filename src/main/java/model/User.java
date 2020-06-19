@@ -1,9 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class User implements Serializable, JsonFormatter {
 
@@ -18,6 +20,7 @@ public abstract class User implements Serializable, JsonFormatter {
     private String phone;
     private LocalDate birthday;
     private String passwd;
+    private final List<Message> MESSAGES = new ArrayList<>();
 
     public User(int id, String name, String email, String state, String city, String address, 
     		String phone, LocalDate birthday, String passwd) {
@@ -59,6 +62,10 @@ public abstract class User implements Serializable, JsonFormatter {
     public void setEmail(String email) {
         if (!email.isEmpty())
             this.email = email;
+    }
+
+    public List<Message> getMESSAGES() {
+        return MESSAGES;
     }
 
     public String getName() {

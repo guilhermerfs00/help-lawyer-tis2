@@ -1,22 +1,23 @@
 package service;
 
+import dao.UserDAO;
+import model.Client;
+import model.Lawyer;
+import model.Message;
+import model.User;
+import model.signatures.Free;
+import model.signatures.Premium;
+import model.signatures.Signature;
+import org.json.JSONArray;
+import spark.Request;
+import spark.Response;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import dao.UserDAO;
-import model.Lawyer;
-import model.User;
-import model.signatures.Free;
-import model.signatures.Premium;
-import model.signatures.Signature;
-
-import org.json.JSONArray;
-import spark.Request;
-import spark.Response;
 
 public class LawyerService {
     private UserDAO LawyerDAO;
@@ -206,6 +207,39 @@ public class LawyerService {
             return "Advogado nao encontrado.";
         }
 
+    }
+
+    public Object getAllMessages(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+        Lawyer client = (Lawyer) LawyerDAO.get(id);
+        JSONArray jsonArray = new JSONArray();
+        for (Message message : client.getMESSAGES()) {
+            jsonArray.put(message.toJson());
+        }
+        response.header("Content-Type", "application/json");
+        response.header("Content-Encoding", "UTF-8");
+        return jsonArray;
+    }
+
+    public Object sendMessage(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+
+        Lawyer lawyer = (Lawyer) LawyerDAO.get(id);
+
+        String name = request.queryParams("name");
+        String email = request.queryParams("email");
+        String message = request.queryParams("message");
+        int senderId = Integer.parseInt(request.queryParams("id"));
+        if (lawyer != null) {
+            lawyer.getMESSAGES().add(new Message(senderId, name, email, message));
+            LawyerDAO.update(lawyer);
+            return id;
+        } else {
+            response.status(404); // 404 Not found
+            return "Advogado nao encontrado.";
+        }
     }
 
     public Object remove(Request request, Response response) {

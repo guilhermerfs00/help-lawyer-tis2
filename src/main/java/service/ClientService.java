@@ -1,16 +1,17 @@
 package service;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import dao.UserDAO;
 import model.Client;
+import model.Message;
 import model.User;
 import org.json.JSONArray;
 import spark.Request;
 import spark.Response;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientService {
 
@@ -129,6 +130,39 @@ public class ClientService {
             response.status(404); // 404 Not found
             return "Cliente encontrado.";
         }
+    }
+
+    public Object sendMessage(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+
+        Client client = (Client) ClientDAO.get(id);
+
+        String name = request.queryParams("name");
+        String email = request.queryParams("email");
+        String message = request.queryParams("message");
+        int senderId = Integer.parseInt(request.queryParams("id"));
+        if (client != null) {
+            client.getMESSAGES().add(new Message(senderId, name, email, message));
+            ClientDAO.update(client);
+            return id;
+        } else {
+            response.status(404); // 404 Not found
+            return "Advogado nao encontrado.";
+        }
+    }
+
+    public Object getAllMessages(Request request, Response response) {
+        updateData();
+        int id = Integer.parseInt(request.params(":id"));
+        Client client = (Client) ClientDAO.get(id);
+        JSONArray jsonArray = new JSONArray();
+        for (Message message : client.getMESSAGES()) {
+            jsonArray.put(message.toJson());
+        }
+        response.header("Content-Type", "application/json");
+        response.header("Content-Encoding", "UTF-8");
+        return jsonArray;
     }
 
     public Object getAll(Request request, Response response) {

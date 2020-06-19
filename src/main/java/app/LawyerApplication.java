@@ -52,8 +52,14 @@ public class LawyerApplication {
         put("/lawyer/:id/upgrade", (request, response) -> lawyer.upgrade(request, response));
         
         put("/lawyer/:id/downgrade", (request, response) -> lawyer.downgrade(request, response));
-        
+
         put("/lawyer/:id/rate", (request, response) -> lawyer.rate(request, response));
+
+        put("/lawyer/:id/message", (request, response) -> lawyer.sendMessage(request, response));
+        get("/lawyer/:id/messages", (request, response) -> lawyer.getAllMessages(request, response));
+
+        put("/client/:id/message", (request, response) -> client.sendMessage(request, response));
+        get("/client/:id/messages", (request, response) -> client.getAllMessages(request, response));
 
         get("/login/:email", (request, response) -> loginService.login(request, response));
     }
